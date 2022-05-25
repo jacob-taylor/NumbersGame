@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { StyleSheet, TextInput, View, Alert } from "react-native";
+import { StyleSheet, TextInput, View, Alert, Text } from "react-native";
 import PrimaryButton from "../components/PrimaryButton";
+import Title from "../components/Title";
 import { COMMANDER_BLUE, LIGHT_CYAN, MIDNIGHT_BLUE } from "../constants";
 
 const StartGameScreen = ({ onPickNum }) => {
@@ -30,20 +31,26 @@ const StartGameScreen = ({ onPickNum }) => {
   };
 
   return (
-    <View style={styles.inputContainer}>
-      <TextInput
-        style={styles.numberInput}
-        maxLength={2}
-        keyboardType="number-pad"
-        value={enteredNumber}
-        onChangeText={numberInputHandler}
-      />
-      <View style={styles.buttonsContainer}>
-        <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
-        </View>
-        <View style={styles.buttonContainer}>
-          <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
+    <View style={styles.rootContainer}>
+      <Title>Numbers Game</Title>
+      <View style={styles.inputContainer}>
+        <Text style={{ fontSize: 20, fontWeight: "bold", color: LIGHT_CYAN }}>
+          Pick A Number Between 1-99
+        </Text>
+        <TextInput
+          style={styles.numberInput}
+          maxLength={2}
+          keyboardType="number-pad"
+          value={enteredNumber}
+          onChangeText={numberInputHandler}
+        />
+        <View style={styles.buttonsContainer}>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={resetInputHandler}>Reset</PrimaryButton>
+          </View>
+          <View style={styles.buttonContainer}>
+            <PrimaryButton onPress={confirmInputHandler}>Confirm</PrimaryButton>
+          </View>
         </View>
       </View>
     </View>
@@ -51,6 +58,7 @@ const StartGameScreen = ({ onPickNum }) => {
 };
 
 const styles = StyleSheet.create({
+  rootContainer: { flex: 1, marginTop: 20, alignItems: "center" },
   inputContainer: {
     marginTop: 100,
     marginHorizontal: 24,

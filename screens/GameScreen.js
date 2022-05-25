@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Alert, TouchableOpacity } from "react-native";
 import Title from "../components/Title";
 import { Ionicons } from "@expo/vector-icons";
@@ -18,23 +18,26 @@ const generateRandomBetween = (min, max, exclude) => {
 let minBoundary = 1;
 let maxBoundary = 100;
 
-const GameScreen = ({ userNumber }) => {
-  const initialGuess = generateRandomBetween(
-    minBoundary,
-    maxBoundary,
-    userNumber
-  );
+const GameScreen = ({ userNumber, gameOverHandler, count, updateCount }) => {
+  const initialGuess = generateRandomBetween(1, 100, userNumber);
   const [guess, setGuess] = useState(initialGuess);
+
+  useEffect(() => {
+    if (guess === userNumber) {
+      gameOverHandler();
+    }
+  }, [guess, userNumber, gameOverHandler]);
 
   const guessHandler = (response) => {
     if (
-      (response === "lower" && guess <= userNumber) ||
-      (response === "higher" && guess >= userNumber)
+      (response === "lower" && guess < userNumber) ||
+      (response === "higher" && guess > userNumber)
     ) {
       Alert.alert("Don't Lie", "You know that this is wrong!", {
         text: "Sorry!",
         style: "cancel",
       });
+      updateCount(count + 1);
       return;
     }
 
@@ -68,7 +71,7 @@ const GameScreen = ({ userNumber }) => {
         </TouchableOpacity>
       </View>
       <View>
-        <Text>Number of Rounds</Text>
+        <Text>{count}</Text>
       </View>
     </View>
   );
